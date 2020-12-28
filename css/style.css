@@ -96,6 +96,7 @@ body {
 .avatar {
     float: left;
     margin: 0 40px 20px 0;
+	display: inline-block;
 }
     .avatar img {
         max-width: 200px;
@@ -105,8 +106,9 @@ body {
 
 .content {
     float: left;
-	max-width: 800px;
+	max-width: 700px;
     width: auto;
+	display: inline-block
 }
     .title {
         font-size: 40px;
