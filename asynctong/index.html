@@ -1,0 +1,96 @@
+<script>
+
+var depositCashPromise = null
+var buyServerPromise = null
+var goBankruptPromise = null
+
+var willDepositCash = ()=> {
+    	return Promise.resolve('มีเงินแล้ว')
+};
+
+var willBuyServer = (depositCashPromise)=> {
+  	if(depositCashPromise)
+    	return Promise.resolve('ซื้อเซิร์ฟเวอร์')
+    else
+    	return Promise.reject(new Error('กรุณาฝากเงินก่อน'))
+};
+
+var willGoBankrupt = (buyServerPromise) => {
+	if(buyServerPromise) 
+  		return Promise.resolve('หมดตัว')
+  	else
+  		return Promise.reject(new Error('ยังมีเงินเหลือ'))
+};		
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>อะซิงก์สีทอง (Golden Async)</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		
+		<meta property="og:title" content="อะซิงก์ทอง">
+		<meta property="og:description" content="แนะนำอะซิงก์ทองโดยปรมาจารย์หนึ่งทอง">
+		<meta property="og:image" content="https://netnextplay.github.io/img/asynctong-og.jpg">
+		<meta property="og:url" content="http://netnextplay.github.io/asynctong">
+
+		<style>
+			.display-inline {
+				display: inline-block;
+			}
+		</style>
+		
+	</head>
+
+	<body>
+		<br>
+		<center>
+			
+			<div id="result">
+
+			</div>
+			<br><br>
+			<button id="depCashBtn" onclick="depositCash()">
+				ฝากเงิน
+			</button>
+			<button id="buyServerBtn" onclick="buyServer()">
+				ซื้อเซิร์ฟเวอร์
+			</button>
+		</center>
+
+		<script>
+			async function depositCash() {
+				try {
+			    	depositCashPromise = await willDepositCash()
+			 		document.getElementById("result").innerText = depositCashPromise
+			  	} catch(error) {
+			    	document.getElementById("result").innerText = error.message
+			  	}
+			} 
+			async function buyServer() {
+				try {
+			    	buyServerPromise = await willBuyServer(depositCashPromise)
+			 		document.getElementById("result").innerText = buyServerPromise
+			    	goBankruptPromise = await willGoBankrupt(buyServerPromise)
+			    	document.getElementById("result").innerText = buyServerPromise + ", " + goBankruptPromise
+			    	depositCashPromise = null
+			  	} catch(error) {
+			    	document.getElementById("result").innerText = error.message
+			  	}
+			} 
+			
+			document.getElementById("result").innerText = "ไม่มีเงินในบัญชี"
+		</script>
+		<br>
+		<center>
+			<img width="300px" src="../img/asynctong.png">
+		</center>
+	</body>
+</html>
