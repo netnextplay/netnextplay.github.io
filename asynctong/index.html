@@ -1,27 +1,25 @@
 <script>
+	var depositCashPromise = null
+	var buyServerPromise = null
+	var goBankruptPromise = null
 
-var depositCashPromise = null
-var buyServerPromise = null
-var goBankruptPromise = null
+	var willDepositCash = ()=> {
+	    	return Promise.resolve('มีเงินแล้ว')
+	};
 
-var willDepositCash = ()=> {
-    	return Promise.resolve('มีเงินแล้ว')
-};
+	var willBuyServer = (depositCashPromise)=> {
+	  	if(depositCashPromise)
+	    	return Promise.resolve('ซื้อเซิร์ฟเวอร์')
+	    else
+	    	return Promise.reject(new Error('กรุณาฝากเงินก่อน'))
+	};
 
-var willBuyServer = (depositCashPromise)=> {
-  	if(depositCashPromise)
-    	return Promise.resolve('ซื้อเซิร์ฟเวอร์')
-    else
-    	return Promise.reject(new Error('กรุณาฝากเงินก่อน'))
-};
-
-var willGoBankrupt = (buyServerPromise) => {
-	if(buyServerPromise) 
-  		return Promise.resolve('หมดตัว')
-  	else
-  		return Promise.reject(new Error('ยังมีเงินเหลือ'))
-};		
-
+	var willGoBankrupt = (buyServerPromise) => {
+		if(buyServerPromise) 
+	  		return Promise.resolve('หมดตัว')
+	  	else
+	  		return Promise.reject(new Error('ยังมีเงินเหลือ'))
+	};		
 </script>
 
 <!DOCTYPE html>
@@ -40,19 +38,11 @@ var willGoBankrupt = (buyServerPromise) => {
 		<meta property="og:description" content="แนะนำอะซิงก์ทองโดยปรมาจารย์หนึ่งทอง">
 		<meta property="og:image" content="https://netnextplay.github.io/img/asynctong-og.jpg">
 		<meta property="og:url" content="http://netnextplay.github.io/asynctong">
-
-		<style>
-			.display-inline {
-				display: inline-block;
-			}
-		</style>
-		
 	</head>
 
 	<body>
 		<br>
 		<center>
-			
 			<div id="result">
 
 			</div>
